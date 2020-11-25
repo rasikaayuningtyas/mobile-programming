@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">Helloworld</string>
-    <string name="todo">TODO</string>
-    <string name="insert_your_name">insert your name</string>
-    <string name="click_me">Click Me</string>
-    <string name="name">Name</string>
-    <string name="register_me">register me</string>
-</resources>

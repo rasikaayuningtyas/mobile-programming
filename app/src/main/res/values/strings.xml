@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">WinIt</string>
+    <string name="eventdate" />
+    <string name="event" />
+    <string name="countdown">Countdown!</string>
+    <string name="replay_shinee">Replay - SHINee</string>
+    <string name="title">TextView</string>
+    <string name="win_a_trophy_for_shinee">Win a trophy for SHINee!</string>
+    <string name="textview">TextView</string>
+    <string name="twitter_mention_times">Twitter-Mention Times</string>
+    <string name="voting_times">Voting Times</string>
+    <string name="new_target">New Target!</string>
+    <string name="group_name">Group name</string>
+    <string name="group_name_input">group name</string>
+    <string name="goal_for_mention_times">Goal for Mention Times</string>
+    <string name="goal_for_voting_times">Goal for Voting Times</string>
+    <string name="goal_for_streaming_times">Goal for Streaming Times</string>
+    <string name="streaming_times">Streaming Times</string>
+    <string name="alarm">alarm</string>
+    <string name="notify">notify</string>
+    <string name="count_down">Countdown</string>
+    <string name="channel_name">MyChannel</string>
+    <string name="channel_description">My channel description</string>
+    <string name="textview100">TextView</string>
+    <string name="textview101">TextView</string>
+    <string name="textview102">TextView</string>
+</resources>

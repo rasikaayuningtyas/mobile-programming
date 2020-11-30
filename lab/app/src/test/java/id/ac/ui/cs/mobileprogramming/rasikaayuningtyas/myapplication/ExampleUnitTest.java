@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.rasikaayuningtyas.helloworld;
+package id.ac.ui.cs.mobileprogramming.rasikaayuningtyas.myapplication;
 
 import org.junit.Test;
 

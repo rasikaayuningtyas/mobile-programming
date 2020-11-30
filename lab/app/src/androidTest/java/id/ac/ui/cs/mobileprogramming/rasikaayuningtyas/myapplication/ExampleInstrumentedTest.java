@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.rasikaayuningtyas.helloworld;
+package id.ac.ui.cs.mobileprogramming.rasikaayuningtyas.myapplication;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("id.ac.ui.cs.mobileprogramming.rasikaayuningtyas.helloworld", appContext.getPackageName());
+        assertEquals("id.ac.ui.cs.mobileprogramming.rasikaayuningtyas.myapplication", appContext.getPackageName());
     }
 }

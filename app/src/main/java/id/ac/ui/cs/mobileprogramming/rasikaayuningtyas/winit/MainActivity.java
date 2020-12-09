@@ -1,16 +1,22 @@
 package id.ac.ui.cs.mobileprogramming.rasikaayuningtyas.winit;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
+import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -19,9 +25,13 @@ import android.widget.Button;
 import android.content.Intent;
 import android.database.Cursor;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import android.util.Log;
+import android.Manifest;
+import android.net.Uri;
 
 
 
@@ -34,6 +44,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity{
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 5;
     //button
     TextView eventText, eventDate;
     FloatingActionButton floatingBtn;
@@ -44,8 +55,13 @@ public class MainActivity extends AppCompatActivity{
     LinearLayoutManager linearLayoutManager;
     RoomDB database;
     MainAdapter adapter;
-    NotificationManager notificationManager;
     int notifID = 16;
+
+    public static ArrayList<String> nameOfEvent = new ArrayList<String>();
+    public static ArrayList<String> startDates = new ArrayList<String>();
+    public static ArrayList<String> endDates = new ArrayList<String>();
+    public static ArrayList<String> descriptions = new ArrayList<String>();
+    public static ArrayList<String> events = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,23 +124,13 @@ public class MainActivity extends AppCompatActivity{
         alarmManager.set(AlarmManager.RTC_WAKEUP, alertTime, PendingIntent.getBroadcast(
                 MainActivity.this, 1, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
-
-//        Cursor cursor = getContentResolver().query(CalendarContract.Events.CONTENT_URI, null,
-//                null, null, null);
-//        while (cursor.moveToNext()) {
-//            if (cursor!=null){
-//                String event = cursor.getString(cursor.getColumnIndex(CalendarContract.Events.TITLE));
-//                String date = cursor.getString(cursor.getColumnIndex(CalendarContract.Events.DTSTART));
-//
-//                eventText.setText(event);
-//                eventDate.setText(date);
-//            }
-//            else{
-//                return;
-//            }
-//        }
-//        cursor.close();
-
+        //Calendar
+        readCalendarEvent(MainActivity.this);
+        Log.i("msgku", "mashooook");
+        for (int i=0; i<events.size(); i++){
+            Log.i("msgku lagi", "mashoook lagi");
+            Log.i("events", events.get(i));
+        }
     }
 
     private void notifyGoal(MainData object) {
@@ -171,6 +177,48 @@ public class MainActivity extends AppCompatActivity{
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+
+
+    public void readCalendarEvent(Context context) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, MY_PERMISSIONS_REQUEST_READ_CALENDAR);
+        }
+
+        ContentResolver contentResolver = getContentResolver();
+        String selection = CalendarContract.Calendars.VISIBLE + " = 1 AND " + CalendarContract.Calendars.IS_PRIMARY + "=1";
+        Cursor cursor = contentResolver.query(CalendarContract.Calendars.CONTENT_URI, new String[] { "calendar_id", "title", "description",
+                "dtstart", "dtend", "eventLocation" }, selection, null, null);
+
+        // fetching calendars id
+        nameOfEvent.clear();
+        startDates.clear();
+        endDates.clear();
+        descriptions.clear();
+        cursor.moveToFirst();
+
+        if (cursor != null && cursor.getCount() > 0){
+            nameOfEvent.add(cursor.getString(1));
+            startDates.add(getDate(Long.parseLong(cursor.getString(3))));
+            endDates.add(getDate(Long.parseLong(cursor.getString(4))));
+            descriptions.add(cursor.getString(2));
+            cursor.moveToNext();
+
+        }
+        if (cursor != null){
+            cursor.close();
+    }
+    }
+
+    public static String getDate(long milliSeconds) {
+        SimpleDateFormat formatter = null;
+        formatter = new SimpleDateFormat(
+                    "dd/MM/yyyy hh:mm:ss a");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
+    }
+
 
 
 }
